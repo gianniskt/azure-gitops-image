@@ -23,21 +23,31 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Install Azure CLI with retry logic and platform-specific handling
+# Install Azure CLI with platform-specific handling and fallback
 RUN set -e \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         apt-transport-https \
-        software-properties-common \
-    && mkdir -p /etc/apt/keyrings \
-    && curl -sLS https://packages.microsoft.com/keys/microsoft.asc | \
-        gpg --dearmor | tee /etc/apt/keyrings/microsoft.gpg > /dev/null \
-    && chmod go+r /etc/apt/keyrings/microsoft.gpg \
-    && AZ_REPO=$(lsb_release -cs) \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
-        tee /etc/apt/sources.list.d/azure-cli.list \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends azure-cli \
+        ca-certificates \
+        gnupg \
+        lsb-release \
+    && ARCH=$(dpkg --print-architecture) \
+    && if [ "$ARCH" = "amd64" ]; then \
+        # Standard installation for amd64
+        curl -sLS https://packages.microsoft.com/keys/microsoft.asc | \
+            gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg \
+        && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" | \
+            tee /etc/apt/sources.list.d/azure-cli.list \
+        && apt-get update \
+        && apt-get install -y --no-install-recommends azure-cli; \
+    else \
+        # Alternative method for arm64 - install via pip for reliability
+        apt-get install -y --no-install-recommends \
+            python3 \
+            python3-pip \
+            python3-venv \
+        && python3 -m pip install --break-system-packages azure-cli; \
+    fi \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
