@@ -19,6 +19,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
+      attestations: write
 
     steps:
     - name: Checkout repository
@@ -60,10 +62,18 @@ jobs:
         build-args: |
           BUILDKIT_INLINE_CACHE=1
 
-    - name: Generate artifact attestation
+    - name: Debug build outputs
       if: github.event_name != 'pull_request'
+      run: |
+        echo "Build digest: ${{ steps.build.outputs.digest }}"
+        echo "Build imageid: ${{ steps.build.outputs.imageid }}"
+        echo "Build metadata: ${{ steps.build.outputs.metadata }}"
+
+    - name: Generate artifact attestation
+      if: github.event_name != 'pull_request' && steps.build.outputs.digest != ''
       uses: actions/attest-build-provenance@v1
       with:
-        subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+        subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         subject-digest: ${{ steps.build.outputs.digest }}
         push-to-registry: true
+      continue-on-error: true
