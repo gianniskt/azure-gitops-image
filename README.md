@@ -221,6 +221,40 @@ For detailed examples and prompt engineering techniques, see the [official MCP d
 - **Multi-Cluster Support**: Easily manage Flux across multiple clusters
 - **GitOps Best Practices**: Automated reconciliation with AI-assisted monitoring
 
+## 📦 Releases & Versioning
+
+### **Release Format**
+This project uses a simplified `major.minor` versioning scheme:
+- **v1.0** → **v1.1** → **v1.2** → **v1.3** (regular updates)
+- **v1.0** → **v2.0** → **v3.0** (major changes)
+
+### **Docker Image Tags**
+Each release creates exactly two Docker tags:
+- **Version tag**: `ghcr.io/gianniskt/azure-gitops-image:1.0`
+- **Latest tag**: `ghcr.io/gianniskt/azure-gitops-image:latest`
+
+### **Creating Releases**
+1. **Automated via GitHub Actions**:
+   - Go to repository → Actions → "Create Release" workflow
+   - Choose version bump type: **minor** (1.0→1.1) or **major** (1.0→2.0)
+   - Workflow automatically creates tag, release, and Docker images
+
+2. **Manual Git Tags**:
+   ```bash
+   git tag v1.0
+   git push origin v1.0
+   ```
+
+### **Using Specific Versions**
+```bash
+# Always latest stable
+docker pull ghcr.io/gianniskt/azure-gitops-image:latest
+
+# Pin to specific version
+docker pull ghcr.io/gianniskt/azure-gitops-image:1.0
+docker pull ghcr.io/gianniskt/azure-gitops-image:1.1
+```
+
 ### Terraform with Azure
 ```bash
 # Azure login
@@ -253,6 +287,18 @@ helm install my-release bitnami/nginx
 | **Docker Layers** | 15+ | 3 | **80% fewer** |
 | **Build Time** | ~8 min | ~3 min | **62% faster** |
 | **Container Startup** | ~15s | ~5s | **67% faster** |
+
+### Docker Image Tags
+| Tag Pattern | Description | Use Case |
+|-------------|-------------|----------|
+| `latest` | Always points to newest release | Production deployments |
+| `1.0`, `1.1`, `1.2` | Specific version tags | Version pinning, rollbacks |
+
+### Multi-Platform Support
+| Architecture | Status | Target Use |
+|--------------|--------|------------|
+| `linux/amd64` | ✅ Supported | Intel/AMD servers, CI/CD |
+| `linux/arm64` | ✅ Supported | Apple Silicon, ARM servers |
 
 ## 🛡️ Security Considerations
 
@@ -360,6 +406,14 @@ docker pull ghcr.io/gianniskt/azure-gitops-image:latest
 docker run -it ghcr.io/gianniskt/azure-gitops-image:latest bash
 ```
 
+#### Version-Specific Images
+```bash
+# Use specific version
+docker pull ghcr.io/gianniskt/azure-gitops-image:1.0
+docker pull ghcr.io/gianniskt/azure-gitops-image:1.1
+docker pull ghcr.io/gianniskt/azure-gitops-image:1.2
+```
+
 ## 🏗️ Building Locally
 
 ```bash
@@ -447,19 +501,32 @@ The following environment variables are pre-configured:
 
 ## 🚢 CI/CD
 
-The image is automatically built and pushed to GitHub Container Registry (GHCR) when:
-- A new release is created
-- Changes are pushed to main/master branch
-- Manual workflow dispatch
+The image is automatically built and pushed to GitHub Container Registry (GHCR) using GitHub Actions workflows:
 
-### Multi-platform Support
-- `linux/amd64`
-- `linux/arm64`
+### **Automated Docker Builds**
+- **Push to main**: Builds and pushes with `latest` tag
+- **Git tags**: Builds version-specific images (e.g., `1.0`, `1.1`, `1.2`)
+- **Pull requests**: Builds for testing (not pushed to registry)
+- **Manual dispatch**: Can be triggered manually from GitHub Actions
+
+### **Automated Releases**
+- **Version Format**: `1.0` → `1.1` → `1.2` (major.minor only)
+- **Release Creation**: Use GitHub Actions "Create Release" workflow
+- **Version Bumping**: Choose minor (1.0→1.1) or major (1.0→2.0) increments
+- **Docker Tags**: Each release creates only two tags: version tag (e.g., `1.0`) and `latest`
+
+### **Multi-platform Support**
+- `linux/amd64` (Intel/AMD x64)
+- `linux/arm64` (Apple Silicon, ARM servers)
+
+### **Security Features**
+- Build provenance attestation for supply chain security
+- Minimal permissions with GitHub's built-in `GITHUB_TOKEN`
+- Multi-platform builds with cache optimization
 
 ## 🔐 Security
 
 - Runs as non-root user (`myuser`)
-- Includes security scanning tools (TFSec)
 - Built with provenance attestation
 - Regular dependency updates
 
