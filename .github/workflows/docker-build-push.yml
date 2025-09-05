@@ -43,10 +43,11 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
-          type=ref,event=branch,enable=${{ github.ref_name != 'main' }}
-          type=ref,event=pr
-          type=semver,pattern={{major}}.{{minor}}
-          type=raw,value=latest,enable=${{ github.ref_name == 'main' }}
+          type=semver,pattern={{major}}.{{minor}},enable={{is_default_branch}}
+          type=semver,pattern={{version}},enable={{is_default_branch}}
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: |
+          latest=false
 
     - name: Build and push Docker image
       id: build
@@ -59,8 +60,8 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        build-args: |
-          BUILDKIT_INLINE_CACHE=1
+        provenance: false
+        sbom: false
 
     - name: Debug build outputs
       if: github.event_name != 'pull_request'
