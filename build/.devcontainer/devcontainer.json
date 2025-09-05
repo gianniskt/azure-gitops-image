@@ -1,0 +1,39 @@
+{
+	"name": "Azure GitOps DevContainer with MCP",
+	"build": { "dockerfile": "../../Dockerfile" },
+	"containerUser": "myuser",
+
+	"postCreateCommand": "mkdir -p ~/.kube && echo 'export KUBECONFIG=$HOME/.kube/config' >> ~/.bashrc",
+
+	"customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+        		"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash"
+					}
+        		},
+				"mcp": {
+					"servers": {
+						"flux-operator-mcp": {
+							"command": "flux-operator-mcp",
+							"args": ["serve"],
+							"env": {
+								"KUBECONFIG": "/home/myuser/.kube/config"
+							}
+						}
+					}
+				},
+				"chat.mcp.enabled": true
+			},
+			"extensions": [
+				"mhutchie.git-graph",
+				"github.vscode-github-actions",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"ms-vscode.vscode-mcp"
+			]
+        }
+    },
+	"remoteUser": "myuser"
+}

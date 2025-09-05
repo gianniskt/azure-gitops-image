@@ -1,0 +1,143 @@
+# Git and version control
+.git
+.gitignore
+.gitattributes
+.gitmodules
+
+# Documentation
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
+*.md
+
+# Build artifacts and temporary files
+build/
+target/
+dist/
+*.log
+*.tmp
+.cache/
+.temp/
+temp/
+tmp/
+logs/
+
+# DevContainer build artifacts
+.devcontainer/.build/
+**/.devcontainer/.build/
+
+# IDE and editor files
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker related
+.dockerignore
+docker-compose*.yml
+*.dockerfile
+Dockerfile.*
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+azure-pipelines.yml
+
+# Package managers
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.tfplan
+*.tfvars
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+.kube/
+
+# Azure
+.azure/
+
+# AWS
+.aws/
+
+# GCP
+.gcp/
+service-account*.json
+
+# Secrets and sensitive files
+*.pem
+*.key
+*.p12
+*.jks
+secrets/
+.env
+.env.*
+!.env.example
+
+# Test files
+test/
+tests/
+*_test.go
+*.test
+coverage/
+.nyc_output/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Local development
+.local/
+local/
+scratch/
+playground/
+
+# Archives
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+
+# Large files that shouldn't be in Docker context
+*.iso
+*.dmg
+*.img
