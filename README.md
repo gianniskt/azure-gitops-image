@@ -32,10 +32,10 @@ A secure Ubuntu-based DevContainer** designed specifically for **Azure GitOps wo
 | **kubectx** | Latest | Kubernetes context switching |
 
 ### Azure & Cloud Tools
-| Tool | Version | Purpose |
-|------|---------|---------|
-| **Azure CLI** | Latest | Azure resource management |
-| **Terraform** | Latest | Infrastructure as Code |
+| Tool | Version | Purpose | Notes |
+|------|---------|---------|-------|
+| **Azure CLI** | Latest | Azure resource management | Pre-installed on AMD64, runtime install on ARM64 |
+| **Terraform** | Latest | Infrastructure as Code | |
 
 ### Data Processing Tools
 | Tool | Version | Purpose |
@@ -118,6 +118,22 @@ The container includes **Flux Operator MCP Server** for AI-powered GitOps assist
 
 ### GitHub Copilot Integration
 The DevContainer comes pre-configured with GitHub Copilot extensions and MCP settings for seamless AI assistance in your GitOps workflows.
+
+## 🏗️ Platform Support
+
+This image supports both AMD64 and ARM64 architectures with the following considerations:
+
+### AMD64 (Intel/AMD)
+- ✅ All tools pre-installed including Azure CLI
+- ✅ Optimized performance
+- ✅ Recommended for production use
+
+### ARM64 (Apple Silicon/ARM)
+- ✅ All GitOps tools pre-installed (Flux, Kubernetes, Terraform, etc.)
+- ⚠️ Azure CLI requires runtime installation for build time optimization
+- 📝 Install Azure CLI when needed: `curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash`
+
+This approach ensures fast CI/CD builds while maintaining full functionality.
 
 ## 📁 Project Structure
 

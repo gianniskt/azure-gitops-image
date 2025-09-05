@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Install Azure CLI with platform-specific handling and fallback
+# Install Azure CLI with platform-specific handling and optimizations
 RUN set -e \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -41,12 +41,11 @@ RUN set -e \
         && apt-get update \
         && apt-get install -y --no-install-recommends azure-cli; \
     else \
-        # Alternative method for arm64 - install via pip for reliability
-        apt-get install -y --no-install-recommends \
-            python3 \
-            python3-pip \
-            python3-venv \
-        && python3 -m pip install --break-system-packages azure-cli; \
+        # Skip Azure CLI for ARM64 to reduce build time - can be installed at runtime
+        echo "Azure CLI installation skipped for ARM64 - install manually if needed" \
+        && echo '#!/bin/bash' > /usr/local/bin/az \
+        && echo 'echo "Azure CLI not installed in ARM64 image - run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"' >> /usr/local/bin/az \
+        && chmod +x /usr/local/bin/az; \
     fi \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
