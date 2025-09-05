@@ -41,11 +41,12 @@ jobs:
         fi
         VERSION=${TAG#v}
         
-        # Build and push with version tag and latest
+        # Build and push with clean tags only - single platform to avoid SHA256 tags
         docker buildx build \
-          --platform linux/amd64,linux/arm64 \
+          --platform linux/amd64 \
           --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$VERSION \
           --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+          --provenance=false \
           --push \
           .
         
