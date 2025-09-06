@@ -109,8 +109,8 @@ Add `.devcontainer/devcontainer.json` to your repository and open in GitHub Code
 ### Azure & Cloud Tools
 | Tool | Version | Purpose | Notes |
 |------|---------|---------|-------|
-| **Azure CLI** | Latest | Azure resource management | Pre-installed on AMD64, runtime install on ARM64 |
-| **Terraform** | Latest | Infrastructure as Code | |
+| **Azure CLI** | Latest | Azure resource management |
+| **Terraform** | Latest | Infrastructure as Code |
 
 ### Data Processing Tools
 | Tool | Version | Purpose |
