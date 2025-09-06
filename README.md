@@ -107,8 +107,8 @@ Add `.devcontainer/devcontainer.json` to your repository and open in GitHub Code
 | **kubectx** | Latest | Kubernetes context switching |
 
 ### Azure & Cloud Tools
-| Tool | Version | Purpose | Notes |
-|------|---------|---------|-------|
+| Tool | Version | Purpose |
+|------|---------|---------|
 | **Azure CLI** | Latest | Azure resource management |
 | **Terraform** | Latest | Infrastructure as Code |
 
