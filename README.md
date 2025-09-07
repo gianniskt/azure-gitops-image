@@ -52,14 +52,14 @@ A secure Ubuntu-based DevContainer designed specifically for **Azure GitOps work
 docker pull ghcr.io/gianniskt/azure-gitops-image:latest
 docker run -it --rm \
   -v $(pwd):/workspace \
-  -v ~/.kube:/home/myuser/.kube:ro \
+  -v ~/.kube:/home/myuser/.kube \
   ghcr.io/gianniskt/azure-gitops-image:latest bash
 
 # Use specific version
 docker pull ghcr.io/gianniskt/azure-gitops-image:1.0
 docker run -it --rm \
   -v $(pwd):/workspace \
-  -v ~/.kube:/home/myuser/.kube:ro \
+  -v ~/.kube:/home/myuser/.kube \
   ghcr.io/gianniskt/azure-gitops-image:1.0 bash
 ```
 
@@ -76,7 +76,7 @@ docker build -t azure-gitops-devcontainer .
 # Run interactively
 docker run -it --rm \
   -v $(pwd):/workspace \
-  -v ~/.kube:/home/myuser/.kube:ro \
+  -v ~/.kube:/home/myuser/.kube \
   azure-gitops-devcontainer bash
 ```
 
