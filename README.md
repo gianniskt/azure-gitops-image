@@ -56,11 +56,11 @@ docker run -it --rm \
   ghcr.io/gianniskt/azure-gitops-image:latest bash
 
 # Use specific version
-docker pull ghcr.io/gianniskt/azure-gitops-image:1.0.2
+docker pull ghcr.io/gianniskt/azure-gitops-image:1.0
 docker run -it --rm \
   -v $(pwd):/workspace \
   -v ~/.kube:/home/myuser/.kube:ro \
-  ghcr.io/gianniskt/azure-gitops-image:1.0.2 bash
+  ghcr.io/gianniskt/azure-gitops-image:1.0 bash
 ```
 
 ### Option 3: Build Locally
