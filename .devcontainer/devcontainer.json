@@ -1,0 +1,47 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "Azure GitOps DevContainer with MCP",
+	// Use the pre-built image from devcontainer build
+	"image": "ghcr.io/gianniskt/azure-gitops-image:latest",
+	"containerUser": "myuser",
+
+	// Setup commands
+	"postCreateCommand": "mkdir -p ~/.kube && echo 'export KUBECONFIG=$HOME/.kube/config' >> ~/.bashrc",
+
+
+	// VS Code customizations
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash"
+					}
+				},
+				"mcp": {
+					"servers": {
+						"flux-operator-mcp": {
+							"command": "flux-operator-mcp",
+							"args": ["serve"],
+							"env": {
+								"KUBECONFIG": "/home/myuser/.kube/config"
+							}
+						}
+					}
+				},
+				"chat.mcp.enabled": true
+			},
+			"extensions": [
+				"mhutchie.git-graph",
+				"github.vscode-github-actions",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"ms-vscode.vscode-mcp"
+			]
+		}
+	},
+
+	// Use myuser user
+	"remoteUser": "myuser"
+}
